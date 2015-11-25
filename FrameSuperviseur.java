@@ -5,8 +5,13 @@
 	Version: 2.0.1
 */
 import java.awt.*;
+
 import javax.swing.*;
+
 import java.awt.event.*;
+
+import javax.swing.border.TitledBorder;
+
 
 //class pour le menu du superviseur
 public class FrameSuperviseur extends JFrame{
@@ -29,6 +34,8 @@ public class FrameSuperviseur extends JFrame{
 		
 		//Creation d'un panel pour le premier onglet
 		JPanel panelEnr = new JPanel();
+		TitledBorder panelEnrBorder = new TitledBorder("Informations Employes");//Creations d'un cadre avec titre pour le panel enr. employe 
+		panelEnr.setBorder(panelEnrBorder);//Ajout du cadre a enr. Employe
 		tabbedPane.addTab("Enregistrer Emp.", null, panelEnr, null);//Ajout du premier onglet dans son conteneur
 		GridBagLayout gbl_panelEnr = new GridBagLayout();//Creation d'un gridbag Layout pour le panel enr. emplo.
 		gbl_panelEnr.columnWidths = new int[]{137, 86, 280, 0};
@@ -199,9 +206,9 @@ public class FrameSuperviseur extends JFrame{
 		champSalaire.setColumns(10);
 		
 		
-		//Creation elements Deuxieme onglet(Employes)
+		//Creation Deuxieme onglet(Employes) et ses elements
 		JPanel panel_Emp = new JPanel();
-		tabbedPane.addTab("Employes", null, panel_Emp, null);//Conteneur pour l'onglet employe
+		tabbedPane.addTab("Employes", null, panel_Emp, "Affiche les infos des employes");//Conteneur pour l'onglet employe
 		panel_Emp.setLayout(new BorderLayout(0, 0));//Ajout d'un border layout a l'onglet employe
 		
 		JLabel label_emp = new JLabel("Informations Employe");
@@ -213,9 +220,9 @@ public class FrameSuperviseur extends JFrame{
 		JTextPane emp_textPane = new JTextPane();
 		emp_scrollPane.setViewportView(emp_textPane);
 		
-		//Creation elements troisieme onglet(Benevoles)
+		//Creation troisieme onglet(Benevoles) et ses elements
 		JPanel panel_Ben = new JPanel();
-		tabbedPane.addTab("Benevoles", null, panel_Ben, null);
+		tabbedPane.addTab("Benevoles", null, panel_Ben, "Affiche les infos des benevoles");
 		panel_Ben.setLayout(new BorderLayout(0, 0));
 		
 		JLabel label_ben = new JLabel("Informations Benevoles: ");
@@ -227,9 +234,9 @@ public class FrameSuperviseur extends JFrame{
 		JTextPane ben_textPane = new JTextPane();
 		ben_scrollPane.setViewportView(ben_textPane);
 		
-		//Creation elements quatrieme onglet(Donateurs)
+		//Creation quatrieme onglet et ses elements
 		JPanel panel_Don = new JPanel();
-		tabbedPane.addTab("Donateurs", null, panel_Don, null);
+		tabbedPane.addTab("Donateurs", null, panel_Don, "Affiche les infos donateurs");
 		panel_Don.setLayout(new BorderLayout(0, 0));
 		
 		JLabel label_don = new JLabel("Informations Donateurs:");
@@ -241,6 +248,30 @@ public class FrameSuperviseur extends JFrame{
 		JTextPane don_textPane = new JTextPane();
 		don_scrollPane.setViewportView(don_textPane);
 		
+		//Creation cinquieme onglet et ses elements(Histogrammes)
+		JPanel panel_onglet_Histo = new JPanel();
+		panel_onglet_Histo.setLayout(new BorderLayout(0, 0));
+		tabbedPane.addTab("Histogrammes", null,panel_onglet_Histo,"Histogrammes dynamique");
+		JPanel panelHisto = new JPanel();//Onglet contenant l'histogramme
+		panelHisto.setBorder(new TitledBorder("Histogramme"));
+		panelHisto.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10));
+		panel_onglet_Histo.add(panelHisto,BorderLayout.CENTER);
+		//Creations et ajouts des labels pour chaques histo
+		JLabel lblHistoEmpl = new JLabel("Employes");
+		panelHisto.add(lblHistoEmpl);
+		JLabel lblHistoBen = new JLabel("Benevoles");
+		panelHisto.add(lblHistoBen);
+		JLabel lblHistoDona = new JLabel("Donateurs");
+		panelHisto.add(lblHistoDona);
+		//Creation d'un autre panel interne pour contenir boutons options
+		JPanel histOptionPanel = new JPanel();
+		histOptionPanel.setLayout(new BorderLayout(0, 0));
+		histOptionPanel.setBorder(new TitledBorder("Options"));//Cadre du panel option
+		panel_onglet_Histo.add(histOptionPanel,BorderLayout.NORTH);//Ajout du panel option au nord du panel principale 
+		JButton btnRafraichir = new JButton("Rafraichir");
+		histOptionPanel.add(btnRafraichir,BorderLayout.WEST);
+		
+		
 		//Creation d'un label qui sert de barre de status 
 		JLabel lblNewLabel = new JLabel("GestiDon - Status:");
 		getContentPane().add(lblNewLabel, BorderLayout.SOUTH);//Contrainte pour que le label reste au sud
@@ -248,7 +279,7 @@ public class FrameSuperviseur extends JFrame{
 		//Creation d'une barre d'outil
 		JToolBar toolBar = new JToolBar();
 		getContentPane().add(toolBar, BorderLayout.NORTH);
-		//Creation du premier bouton de la barre d'outril(Enregistrer)
+		//Creation du premier bouton de la barre d'outil(Enregistrer)
 		JButton btnEnregistrer = new JButton("Enregistrer");
 		//Gestionnaire d'evenement du bouton enregistrer
 		btnEnregistrer.addActionListener(new ActionListener(){
@@ -272,7 +303,7 @@ public class FrameSuperviseur extends JFrame{
 		
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		toolBar.add(horizontalStrut);
-		//Creation du deuxieme bouton
+		//Creation du deuxieme bouton de la barre d'outil
 		JButton btnLister = new JButton("Lister");
 		//Gestionnaire d'evenement du bouton lister
 		btnLister.addActionListener(new ActionListener() {
@@ -312,7 +343,7 @@ public class FrameSuperviseur extends JFrame{
             @Override
             public void windowClosing(WindowEvent we) {
                 
-            	if(JOptionPane.showConfirmDialog(null, "Are you SUUURE? Des informations risquent d'être perdues")==JOptionPane.YES_OPTION)
+            	if(JOptionPane.showConfirmDialog(null, "Êtes-vous sûre de vouloir quitter?")==JOptionPane.YES_OPTION)
             	{
                     System.exit(0);
             	}      	
