@@ -9,14 +9,20 @@ import java.awt.*;
 import javax.swing.*;
 
 import java.awt.event.*;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.border.TitledBorder;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 
 //class pour le menu du superviseur
 public class FrameSuperviseur extends JFrame{
-	
+
 	public FrameSuperviseur()
 	{
 		Superviseur unSuperviseur = new Superviseur();
@@ -205,6 +211,10 @@ public class FrameSuperviseur extends JFrame{
 		gbc_textField_4.gridy = 7;
 		panelEnr.add(champSalaire, gbc_textField_4);
 		champSalaire.setColumns(10);
+		
+		//Creation d'un label qui sert de barre de status 
+		JLabel statusBarLbl = new JLabel("GestiDon - Status:");
+		getContentPane().add(statusBarLbl, BorderLayout.SOUTH);//Contrainte pour que le label reste au sud
 		//Fin 1.o-------------------------------<
 		
 		
@@ -264,18 +274,6 @@ public class FrameSuperviseur extends JFrame{
 		panelHisto.setBorder(new TitledBorder("Histogramme"));
 		panelHisto.setLayout(new BorderLayout(0, 0));
 		panel_onglet_Histo.add(panelHisto,BorderLayout.CENTER);
-			
-		//Creations d'un autre panel pour l'ajouter a la section sud du panel histo
-		JPanel panelHistoInterne = new JPanel();
-		panelHistoInterne.setLayout(new FlowLayout(FlowLayout.CENTER,30,5));
-		panelHisto.add(panelHistoInterne,BorderLayout.SOUTH);
-		
-		//Creations des labels pour chaques histo
-
-		
-		
-		//ajouts des labels pour chaques histo
-
 		
 		//Creation d'un autre panel interne pour contenir boutons options
 		JPanel histoOptionPanel = new JPanel();
@@ -285,10 +283,30 @@ public class FrameSuperviseur extends JFrame{
 		//Creation et ajout du bouton Generer
 		JButton btnGenerer = new JButton("Générer");
 		histoOptionPanel.add(btnGenerer);
+		
+		//Creer un dataset pour l'histogramme
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+		//Creation de notre histogramme
+		JFreeChart chart = ChartFactory.createBarChart(" ", "type", "nombre de personnes", dataset);
+		CategoryPlot p=chart.getCategoryPlot();
+		p.setRangeGridlinePaint(Color.BLUE);
+		//Permet de genere l'histo!
 		btnGenerer.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				statusBarLbl.setText("GestiDon - Status: Creation De l'histogramme");
+				//On instancie le dataset ici
+				dataset.setValue(Gestion.employes.size(), "Employes", "Employe");
+				dataset.setValue(Gestion.benevoles.size(), "Benevoles", "Bénévole");
+				dataset.setValue(Gestion.donateurs.size(), "Donateurs", "Donateur");
+				//Creation d'un panel special pour y placer notre histogramme
+				ChartPanel chartPanel = new ChartPanel(chart);
+				chartPanel.setPreferredSize(new Dimension(500,300));
+				//On Entre l'hitogramme finalement dans le panel afin de l'afficher
+				panelHisto.add(chartPanel);
+				//on passe au silence le bouton generer parcequ'il n'a plus de raison d'être
+				btnGenerer.setEnabled(false);
+				statusBarLbl.setText("GestiDon - Status: Histogramme creer avec success");
 			}
 		});
 		//Creation et ajout du bouton Rafraichir
@@ -296,15 +314,13 @@ public class FrameSuperviseur extends JFrame{
 		histoOptionPanel.add(btnRafraichir);//Ajout du bouton rafraichir au panel d'option
 		btnRafraichir.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				dataset.setValue(Gestion.employes.size(), "Employes", "Employe");
+				dataset.setValue(Gestion.benevoles.size(), "Benevoles", "Bénévole");
+				dataset.setValue(Gestion.donateurs.size(), "Donateurs", "Donateur");
 			}
 		});
 		//Fin 5.o-------------------------------<
 		
-		//Creation d'un label qui sert de barre de status 
-		JLabel lblNewLabel = new JLabel("GestiDon - Status:");
-		getContentPane().add(lblNewLabel, BorderLayout.SOUTH);//Contrainte pour que le label reste au sud
 		
 		//Creation d'une barre d'outil
 		JToolBar toolBar = new JToolBar();
