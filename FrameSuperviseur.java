@@ -5,11 +5,9 @@
 	Version: 2.0.1
 */
 import java.awt.*;
-
 import javax.swing.*;
-
 import java.awt.event.*;
-
+import java.awt.geom.Rectangle2D;
 import javax.swing.border.TitledBorder;
 
 
@@ -94,7 +92,7 @@ public class FrameSuperviseur extends JFrame{
 		gbc_lblNumero.gridy = 2;
 		panelEnr.add(lblNumero, gbc_lblNumero);
 		
-		//Creation d'un champ de texture pour le numero de telephone
+		//Creation d'un champ de texte pour le numero de telephone
 		JTextField champNumero = new JTextField();
 		GridBagConstraints gbc_textField_7 = new GridBagConstraints();
 		gbc_textField_7.insets = new Insets(0, 0, 5, 5);
@@ -254,15 +252,22 @@ public class FrameSuperviseur extends JFrame{
 		tabbedPane.addTab("Histogrammes", null,panel_onglet_Histo,"Histogrammes dynamique");
 		JPanel panelHisto = new JPanel();//Onglet contenant l'histogramme
 		panelHisto.setBorder(new TitledBorder("Histogramme"));
-		panelHisto.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10));
+		panelHisto.setLayout(new BorderLayout(0, 0));
 		panel_onglet_Histo.add(panelHisto,BorderLayout.CENTER);
+		
+		//Creations d'un autre panel pour l'ajouter a la section sud du panel histo
+		JPanel panelHistoInterne = new JPanel();
+		panelHistoInterne.setLayout(new FlowLayout(FlowLayout.CENTER,30,5));
+		panelHisto.add(panelHistoInterne,BorderLayout.SOUTH);
+		
 		//Creations et ajouts des labels pour chaques histo
 		JLabel lblHistoEmpl = new JLabel("Employes");
-		panelHisto.add(lblHistoEmpl);
+		panelHistoInterne.add(lblHistoEmpl);//Ajout dans la section sud de l'histo
 		JLabel lblHistoBen = new JLabel("Benevoles");
-		panelHisto.add(lblHistoBen);
+		panelHistoInterne.add(lblHistoBen);//Ajout dans la section sud de l'histo
 		JLabel lblHistoDona = new JLabel("Donateurs");
-		panelHisto.add(lblHistoDona);
+		panelHistoInterne.add(lblHistoDona);//Ajout dans la section sud de l'histo
+		
 		//Creation d'un autre panel interne pour contenir boutons options
 		JPanel histOptionPanel = new JPanel();
 		histOptionPanel.setLayout(new BorderLayout(0, 0));
@@ -351,5 +356,5 @@ public class FrameSuperviseur extends JFrame{
         } );
 	
 	}
-	
+
 }
