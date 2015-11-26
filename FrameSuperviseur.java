@@ -5,9 +5,12 @@
 	Version: 2.0.1
 */
 import java.awt.*;
+
 import javax.swing.*;
+
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
+
 import javax.swing.border.TitledBorder;
 
 
@@ -202,6 +205,7 @@ public class FrameSuperviseur extends JFrame{
 		gbc_textField_4.gridy = 7;
 		panelEnr.add(champSalaire, gbc_textField_4);
 		champSalaire.setColumns(10);
+		//Fin 1.o-------------------------------<
 		
 		
 		//Creation Deuxieme onglet(Employes) et ses elements
@@ -217,6 +221,8 @@ public class FrameSuperviseur extends JFrame{
 		
 		JTextPane emp_textPane = new JTextPane();
 		emp_scrollPane.setViewportView(emp_textPane);
+		//Fin 2.0-------------------------------<
+		
 		
 		//Creation troisieme onglet(Benevoles) et ses elements
 		JPanel panel_Ben = new JPanel();
@@ -228,6 +234,8 @@ public class FrameSuperviseur extends JFrame{
 		
 		JScrollPane ben_scrollPane = new JScrollPane();
 		panel_Ben.add(ben_scrollPane, BorderLayout.CENTER);
+		//Fin 3.o-------------------------------<
+		
 		
 		JTextPane ben_textPane = new JTextPane();
 		ben_scrollPane.setViewportView(ben_textPane);
@@ -245,6 +253,8 @@ public class FrameSuperviseur extends JFrame{
 		
 		JTextPane don_textPane = new JTextPane();
 		don_scrollPane.setViewportView(don_textPane);
+		//Fin 4.o-------------------------------<
+		
 		
 		//Creation cinquieme onglet et ses elements(Histogrammes)
 		JPanel panel_onglet_Histo = new JPanel();
@@ -254,28 +264,43 @@ public class FrameSuperviseur extends JFrame{
 		panelHisto.setBorder(new TitledBorder("Histogramme"));
 		panelHisto.setLayout(new BorderLayout(0, 0));
 		panel_onglet_Histo.add(panelHisto,BorderLayout.CENTER);
-		
+			
 		//Creations d'un autre panel pour l'ajouter a la section sud du panel histo
 		JPanel panelHistoInterne = new JPanel();
 		panelHistoInterne.setLayout(new FlowLayout(FlowLayout.CENTER,30,5));
 		panelHisto.add(panelHistoInterne,BorderLayout.SOUTH);
 		
-		//Creations et ajouts des labels pour chaques histo
-		JLabel lblHistoEmpl = new JLabel("Employes");
-		panelHistoInterne.add(lblHistoEmpl);//Ajout dans la section sud de l'histo
-		JLabel lblHistoBen = new JLabel("Benevoles");
-		panelHistoInterne.add(lblHistoBen);//Ajout dans la section sud de l'histo
-		JLabel lblHistoDona = new JLabel("Donateurs");
-		panelHistoInterne.add(lblHistoDona);//Ajout dans la section sud de l'histo
+		//Creations des labels pour chaques histo
+
+		
+		
+		//ajouts des labels pour chaques histo
+
 		
 		//Creation d'un autre panel interne pour contenir boutons options
-		JPanel histOptionPanel = new JPanel();
-		histOptionPanel.setLayout(new BorderLayout(0, 0));
-		histOptionPanel.setBorder(new TitledBorder("Options"));//Cadre du panel option
-		panel_onglet_Histo.add(histOptionPanel,BorderLayout.NORTH);//Ajout du panel option au nord du panel principale 
+		JPanel histoOptionPanel = new JPanel();
+		histoOptionPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		histoOptionPanel.setBorder(new TitledBorder("Options"));//Cadre du panel option
+		panel_onglet_Histo.add(histoOptionPanel,BorderLayout.NORTH);//Ajout du panel option au nord du panel principale
+		//Creation et ajout du bouton Generer
+		JButton btnGenerer = new JButton("Générer");
+		histoOptionPanel.add(btnGenerer);
+		btnGenerer.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		//Creation et ajout du bouton Rafraichir
 		JButton btnRafraichir = new JButton("Rafraichir");
-		histOptionPanel.add(btnRafraichir,BorderLayout.WEST);
-		
+		histoOptionPanel.add(btnRafraichir);//Ajout du bouton rafraichir au panel d'option
+		btnRafraichir.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		//Fin 5.o-------------------------------<
 		
 		//Creation d'un label qui sert de barre de status 
 		JLabel lblNewLabel = new JLabel("GestiDon - Status:");
